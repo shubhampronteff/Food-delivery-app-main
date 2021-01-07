@@ -15,6 +15,7 @@ import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
+import axios from "axios";
 const wd = Dimensions.get("window").width;
 const ht = Dimensions.get("window").height;
 
@@ -22,6 +23,22 @@ function Login({ navigation }) {
   const [phoneno, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
   const [seepassword, setSeePassword] = useState(true);
+
+  const hitLogin = () => {
+    axios
+      .post("http://192.168.60.209:5000/api/drivers/driverlogin", {
+        phoneno: `${phoneno}`,
+        password: `${password}`,
+      })
+      .then((res) => {
+        console.log(res.body);
+        navigation.navigate("Home", { screen: "Main" });
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   return (
     <TouchableWithoutFeedback
       onPress={() => {
@@ -248,12 +265,14 @@ function Login({ navigation }) {
                     if (phoneno === "" || password === "") {
                       alert("Enter Phone and Password...");
                     } else {
-                      navigation.navigate("Home", { screen: "Main" });
+                      hitLogin();
                     }
                   }}
-                  // onPress={() =>
-                  //   navigation.navigate("Home", { screen: "Main" })
-                  // }
+                  // onPress={() => {
+                  //   console.log(phoneno);
+                  //   console.log(password);
+                  //   // navigation.navigate("Home", { screen: "Main" });
+                  // }}
                   style={{
                     backgroundColor: "#FFC928",
                     width: wd * 0.8,

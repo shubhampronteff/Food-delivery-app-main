@@ -15,6 +15,7 @@ import { Feather } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
 import CheckBox from "@react-native-community/checkbox";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import axios from "axios";
 
 const wd = Dimensions.get("window").width;
 const ht = Dimensions.get("window").height;
@@ -24,6 +25,27 @@ function SignUp({ navigation }) {
   const [phoneno, setPhoneNo] = useState("");
   const [password, setPassword] = useState("");
   const [confirmpassword, setConfirmPassword] = useState("");
+
+  const hitLogin = () => {
+    axios
+      .post("http://192.168.60.209:5000/api/drivers/driverregister", {
+        name: "driver2",
+        email: "driver3@gmail.com",
+        password: "123456",
+        password2: "123456",
+        role: "driver",
+        mobile: "8985652803",
+        dob: "1",
+      })
+      .then((res) => {
+        console.log(res.body);
+        navigation.navigate("Uploaddoc");
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  };
+
   console.log("CheckBox", toggleCheckBox);
   return (
     <TouchableWithoutFeedback
@@ -295,7 +317,7 @@ function SignUp({ navigation }) {
                     ) {
                       alert("Fill all the Fileds...");
                     } else {
-                      navigation.navigate("Uploaddoc");
+                      hitLogin();
                     }
                   }}
                   // onPress={() => navigation.navigate("Uploaddoc")}
